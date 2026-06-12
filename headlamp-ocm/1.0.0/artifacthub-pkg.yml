@@ -17,6 +17,19 @@ keywords:
 links:
   - name: source
     url: https://github.com/cirillialberto/headlamp-plugins
+  - name: plugin folder
+    url: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-ocm
+  - name: artifacthub package docs
+    url: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-ocm/1.0.0
+  - name: issue tracker
+    url: https://github.com/cirillialberto/headlamp-plugins/issues
+changes:
+  - kind: added
+    description: Initial public Artifact Hub release for the OCM plugin.
+  - kind: added
+    description: Added multi-cluster governance views for ManagedClusters, placements, policies, and policy sets.
+  - kind: added
+    description: Added compliance drilldown and non-compliant policy insights.
 maintainers:
   - name: Alberto Cirilli
     email: cirilli.alberto@gmail.com

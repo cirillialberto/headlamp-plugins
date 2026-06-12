@@ -17,6 +17,19 @@ keywords:
 links:
   - name: source
     url: https://github.com/cirillialberto/headlamp-plugins
+  - name: plugin folder
+    url: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-olm
+  - name: artifacthub package docs
+    url: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-olm/1.0.0
+  - name: issue tracker
+    url: https://github.com/cirillialberto/headlamp-plugins/issues
+changes:
+  - kind: added
+    description: Initial public Artifact Hub release for the OLM plugin.
+  - kind: added
+    description: Added Operator Intelligence panel with aggregated health score.
+  - kind: added
+    description: Added dedicated views for CSV, Subscription, CatalogSource, InstallPlan, and PackageManifest.
 maintainers:
   - name: Alberto Cirilli
     email: cirilli.alberto@gmail.com
