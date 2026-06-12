@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: HelmChart
+name: headlamp-olm
+description: Headlamp plugin for Kubernetes Operators and OLM management
+version: 1.0.0
+appVersion: 0.1.0
+type: headlamp-plugin
+category: integration
+keywords:
+  - headlamp
+  - kubernetes-ui
+  - operators
+  - olm
+  - operator-lifecycle-manager
+  - kubernetes-debugging
+provider:
+  name: Alberto Cirilli
+url: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-olm
+source:
+  - https://github.com/cirillialberto/headlamp-plugins
+license: Apache-2.0
+annotations:
+  headlamp.dev/plugin-name: 'headlamp-olm'
+  headlamp.dev/plugin-description: 'Kubernetes Operator and OLM management plugin'
+  headlamp.dev/plugin-category: 'integration'

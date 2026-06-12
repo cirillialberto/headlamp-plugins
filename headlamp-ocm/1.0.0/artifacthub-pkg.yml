@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: HelmChart
+name: headlamp-ocm
+description: Headlamp plugin for Open Cluster Management (OCM) integration
+version: 1.0.0
+appVersion: 0.1.0
+type: headlamp-plugin
+category: integration
+keywords:
+  - headlamp
+  - kubernetes-ui
+  - open-cluster-management
+  - acm
+  - multicluster
+  - cluster-management
+provider:
+  name: Alberto Cirilli
+url: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-ocm
+source:
+  - https://github.com/cirillialberto/headlamp-plugins
+license: Apache-2.0
+annotations:
+  headlamp.dev/plugin-name: 'headlamp-ocm'
+  headlamp.dev/plugin-description: 'Kubernetes cluster management integration for Open Cluster Management'
+  headlamp.dev/plugin-category: 'integration'

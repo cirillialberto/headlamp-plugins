@@ -1,0 +1,18 @@
+# Artifact Hub repository metadata for Headlamp plugins
+repositoryMetadata:
+  repositoryName: Headlamp Plugins
+  repositoryUrl: https://github.com/cirillialberto/headlamp-plugins
+  description: Collection of Headlamp plugins for Kubernetes cluster management
+  category: integration
+  keywords:
+    - headlamp
+    - kubernetes
+    - kubernetes-ui
+    - open-cluster-management
+    - operators
+  owner:
+    name: Alberto Cirilli
+  ownerEmail: cirilli.alberto@example.com
+  ignore:
+    - pattern: '.*'
+      reason: ignore dotfiles
