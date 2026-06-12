@@ -1,31 +1,62 @@
 # Headlamp OCM Plugin
 
-A Headlamp plugin for Open Cluster Management (OCM) integration.
+Version `1.0.0` of the Headlamp plugin focused on Open Cluster Management (OCM/ACM) operations.
 
-## Features
+## Overview
 
-- Open Cluster Management (ACM) cluster integration
-- Multi-cluster management support
-- Kubernetes-native UI components
+This plugin extends Headlamp with dedicated views and details for multi-cluster governance and policy posture.
 
-## Installation
+It is designed for teams managing many clusters and OCM governance resources from a single UI.
 
-Install this plugin in your Headlamp instance by configuring it in your `values.yaml` or deployment configuration.
+## Key capabilities
+
+- OCM dashboard with multi-cluster posture summary
+- ManagedCluster and ManagedClusterSet views
+- Placement and PlacementBinding visibility
+- Policy and PolicySet views with compliance drilldown
+- Non-compliant policy insights and quick reasoning
+- ApplicationSet visibility (Argo CD CRD)
+- YAML detail panels for `spec` and `status`
+
+## Kubernetes resources used
+
+Primary API groups:
+
+- `cluster.open-cluster-management.io`
+- `policy.open-cluster-management.io`
+- `argoproj.io` (for ApplicationSet)
+
+Main resources:
+
+- `managedclusters`
+- `managedclustersets`
+- `placements`
+- `policies`
+- `policysets`
+- `placementbindings`
+- `applicationsets`
 
 ## Requirements
 
-- Headlamp 0.14.0 or higher
-- Open Cluster Management components (optional, for full functionality)
+- Headlamp version compatible with plugin bundles (`main.js`)
+- OCM/ACM CRDs installed in the target cluster
+- RBAC allowing read access to the resources above
 
-## Development
+## Package contents (1.0.0)
 
-For more information on developing Headlamp plugins, refer to:
+- `dist/main.js` (compiled plugin bundle)
+- `artifacthub-pkg.yml` (Artifact Hub metadata)
+- this README
 
-- [Headlamp Getting Started](https://headlamp.dev/docs/latest/development/plugins/)
-- [Headlamp API Reference](https://headlamp.dev/docs/latest/development/api/)
-- [Headlamp UI Components](https://headlamp.dev/docs/latest/development/frontend/#storybook)
-- [Headlamp Plugin Examples](https://github.com/kubernetes-sigs/headlamp/tree/main/plugins/examples)
+## Notes
+
+If some CRDs are missing, related views may appear empty or return API errors.
+
+## Source code
+
+- Repository: https://github.com/cirillialberto/headlamp-plugins
+- Plugin folder: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-ocm
 
 ## License
 
-Apache License 2.0
+Apache-2.0

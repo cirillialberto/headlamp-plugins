@@ -1,31 +1,57 @@
 # Headlamp OLM Plugin
 
-A Headlamp plugin for Kubernetes Operators and Operator Lifecycle Manager (OLM) management.
+Version `1.0.0` of the Headlamp plugin for Operator Lifecycle Manager (OLM) operations.
 
-## Features
+## Overview
 
-- Operator Lifecycle Manager (OLM) integration
-- Kubernetes operator management and debugging
-- Operator installation and configuration UI
+This plugin adds OLM-focused operational views to Headlamp, helping platform teams monitor operator lifecycle health and rollout status.
 
-## Installation
+## Key capabilities
 
-Install this plugin in your Headlamp instance by configuring it in your `values.yaml` or deployment configuration.
+- Operator Intelligence panel with aggregated health score
+- ClusterServiceVersion status overview
+- Subscription drift and update visibility
+- CatalogSource visibility and diagnostics
+- InstallPlan status and pending approval tracking
+- Lifecycle timeline for key OLM resources
+- Action support on subscriptions (requires proper RBAC)
+
+## Kubernetes resources used
+
+API groups:
+
+- `operators.coreos.com/v1alpha1`
+- `packages.operators.coreos.com/v1`
+
+Main resources:
+
+- `clusterserviceversions`
+- `subscriptions`
+- `catalogsources`
+- `installplans`
+- `packagemanifests`
 
 ## Requirements
 
-- Headlamp 0.14.0 or higher
-- Operator Lifecycle Manager (optional, for full functionality)
+- Headlamp version compatible with plugin bundles (`main.js`)
+- OLM CRDs installed in the target cluster
+- RBAC allowing read access, and patch/update permissions if using actions
 
-## Development
+## Package contents (1.0.0)
 
-For more information on developing Headlamp plugins, refer to:
+- `dist/main.js` (compiled plugin bundle)
+- `artifacthub-pkg.yml` (Artifact Hub metadata)
+- this README
 
-- [Headlamp Getting Started](https://headlamp.dev/docs/latest/development/plugins/)
-- [Headlamp API Reference](https://headlamp.dev/docs/latest/development/api/)
-- [Headlamp UI Components](https://headlamp.dev/docs/latest/development/frontend/#storybook)
-- [Headlamp Plugin Examples](https://github.com/kubernetes-sigs/headlamp/tree/main/plugins/examples)
+## Notes
+
+When OLM components are partially installed, some views can be empty or show API errors.
+
+## Source code
+
+- Repository: https://github.com/cirillialberto/headlamp-plugins
+- Plugin folder: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-olm
 
 ## License
 
-Apache License 2.0
+Apache-2.0
