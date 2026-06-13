@@ -1,0 +1,42 @@
+version: 1.0.2
+name: headlamp-ocm
+displayName: Headlamp OCM Plugin
+createdAt: 2026-06-13T06:30:00Z
+description: Headlamp plugin for Open Cluster Management (OCM) integration.
+license: Apache-2.0
+homeURL: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-ocm/1.0.2
+appVersion: 0.1.0
+category: integration-delivery
+keywords:
+  - headlamp
+  - kubernetes
+  - kubernetes-ui
+  - open-cluster-management
+  - acm
+  - multicluster
+links:
+  - name: source
+    url: https://github.com/cirillialberto/headlamp-plugins
+  - name: plugin folder
+    url: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-ocm
+  - name: artifacthub package docs
+    url: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-ocm/1.0.2
+  - name: issue tracker
+    url: https://github.com/cirillialberto/headlamp-plugins/issues
+changes:
+  - kind: added
+    description: Initial public Artifact Hub release for the OCM plugin.
+  - kind: added
+    description: Added multi-cluster governance views for ManagedClusters, placements, policies, and policy sets.
+  - kind: added
+    description: Added compliance drilldown and non-compliant policy insights.
+maintainers:
+  - name: Alberto Cirilli
+    email: cirilli.alberto@gmail.com
+provider:
+  name: Alberto Cirilli
+annotations:
+  headlamp/plugin/archive-url: https://github.com/cirillialberto/headlamp-plugins/releases/download/plugins-v1.0.2/headlamp-ocm-1.0.2.tar.gz
+  headlamp/plugin/archive-checksum: sha256:fc47b101d23d08f74a7f715a5b76b00c3eefe7ec41bcbf637e20c309c9a47b78
+  headlamp/plugin/version-compat: ">=0.14.0"
+  headlamp/plugin/distro-compat: in-cluster,web,docker-desktop,linux,windows,mac

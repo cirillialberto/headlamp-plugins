@@ -1,0 +1,42 @@
+version: 1.0.2
+name: headlamp-olm
+displayName: Headlamp OLM Plugin
+createdAt: 2026-06-13T06:30:00Z
+description: Headlamp plugin for Kubernetes Operators and OLM management.
+license: Apache-2.0
+homeURL: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-olm/1.0.2
+appVersion: 0.1.0
+category: integration-delivery
+keywords:
+  - headlamp
+  - kubernetes
+  - kubernetes-ui
+  - operators
+  - olm
+  - operator-lifecycle-manager
+links:
+  - name: source
+    url: https://github.com/cirillialberto/headlamp-plugins
+  - name: plugin folder
+    url: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-olm
+  - name: artifacthub package docs
+    url: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-olm/1.0.2
+  - name: issue tracker
+    url: https://github.com/cirillialberto/headlamp-plugins/issues
+changes:
+  - kind: added
+    description: Initial public Artifact Hub release for the OLM plugin.
+  - kind: added
+    description: Added Operator Intelligence panel with aggregated health score.
+  - kind: added
+    description: Added dedicated views for CSV, Subscription, CatalogSource, InstallPlan, and PackageManifest.
+maintainers:
+  - name: Alberto Cirilli
+    email: cirilli.alberto@gmail.com
+provider:
+  name: Alberto Cirilli
+annotations:
+  headlamp/plugin/archive-url: https://github.com/cirillialberto/headlamp-plugins/releases/download/plugins-v1.0.2/headlamp-olm-1.0.2.tar.gz
+  headlamp/plugin/archive-checksum: sha256:43f6e49bf1ae225435ff15e8bf933e29742f3c7b343ceb1670f97e81138a6c4c
+  headlamp/plugin/version-compat: ">=0.14.0"
+  headlamp/plugin/distro-compat: in-cluster,web,docker-desktop,linux,windows,mac

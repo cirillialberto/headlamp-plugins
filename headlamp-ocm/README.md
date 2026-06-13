@@ -52,9 +52,9 @@ Output principale:
 
 Per la pubblicazione Artifact Hub (tipo Headlamp plugin) usa i file in:
 
-1. `1.0.1/artifacthub-pkg.yml`
-2. `1.0.1/README.md`
-3. `1.0.1/dist/main.js`
+1. `1.0.2/artifacthub-pkg.yml`
+2. `1.0.2/README.md`
+3. `1.0.2/dist/main.js`
 
 ## Script disponibili
 
