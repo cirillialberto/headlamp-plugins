@@ -21,14 +21,14 @@ Offrire viste operative in Headlamp per:
 headlamp-plugins/
 ├── artifacthub-repo.yml
 ├── headlamp-ocm/
-│   ├── 1.0.0/
+│   ├── 1.0.1/
 │   │   ├── artifacthub-pkg.yml
 │   │   ├── README.md
 │   │   └── dist/
 │   ├── src/
 │   └── package.json
 └── headlamp-olm/
-	├── 1.0.0/
+	├── 1.0.1/
 	│   ├── artifacthub-pkg.yml
 	│   ├── README.md
 	│   └── dist/
