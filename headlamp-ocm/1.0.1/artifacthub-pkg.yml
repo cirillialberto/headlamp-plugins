@@ -37,6 +37,6 @@ provider:
   name: Alberto Cirilli
 annotations:
   headlamp/plugin/archive-url: https://github.com/cirillialberto/headlamp-plugins/releases/download/plugins-v1.0.1/headlamp-ocm-1.0.1.tar.gz
-  headlamp/plugin/archive-checksum: sha256:cee402250536a7adb4d4c62a25ff3043940b63aaa773d216f301140ad3a9071d
+  headlamp/plugin/archive-checksum: sha256:310a28cdd66828371d1b1aed54275d7a1af64d618eb6899bd5da113ea1563792
   headlamp/plugin/version-compat: ">=0.14.0"
   headlamp/plugin/distro-compat: in-cluster,web,docker-desktop,linux,windows,mac
