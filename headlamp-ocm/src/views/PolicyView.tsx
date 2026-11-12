@@ -1,12 +1,33 @@
-import { ResourceListView, SectionBox } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
+import { Loader, ResourceListView, SectionBox } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { CrdNotInstalled } from '../components/CrdNotInstalled';
 import { ResourceDefinitionDetails } from '../components/ResourceDefinitionDetails';
+import { useOcmInstalled } from '../hooks/useOcmInstalled';
+import { OcmApiLabels } from '../isOcmInstalled';
 import { Policy } from '../resources/policy';
 import { getNonCompliantClusterCount, getPolicyIntent, getPolicyWhyNonCompliant } from '../utils/policy';
 import { makeSearchFilter } from '../utils/search';
 
 export function PolicyListView() {
+  const { isPolicyApiInstalled, isOcmCheckLoading } = useOcmInstalled();
+
+  if (isOcmCheckLoading) {
+    return (
+      <SectionBox title="Policies">
+        <Loader title="Checking Open Cluster Management APIs" />
+      </SectionBox>
+    );
+  }
+
+  if (isPolicyApiInstalled === false) {
+    return (
+      <SectionBox title="Policies">
+        <CrdNotInstalled apiGroup={OcmApiLabels.policy} resourceLabel="Policies" />
+      </SectionBox>
+    );
+  }
+
   return (
     <SectionBox title="Policies">
       <ResourceListView
