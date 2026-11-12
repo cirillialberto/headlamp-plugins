@@ -1,7 +1,8 @@
-import { registerAppBarAction, registerRoute, registerSidebarEntry } from '@kinvolk/headlamp-plugin/lib';
+import { registerAppBarAction, registerMapSource, registerRoute, registerSidebarEntry } from '@kinvolk/headlamp-plugin/lib';
 import React from 'react';
 import { OcMDashboard } from './components/OcMDashboard';
 import { RouteNames } from './constants';
+import { ocmSource } from './mapView';
 import { ApplicationSetDetailsView, ApplicationSetListView } from './views/ApplicationSetView';
 import { ManagedClusterSetDetailsView, ManagedClusterSetListView } from './views/ManagedClusterSetView';
 import { ManagedClusterDetailsView, ManagedClusterListView } from './views/ManagedClusterView';
@@ -40,3 +41,5 @@ try {
 } catch (err) {
   console.error('[OCM Plugin] Failed to register routes:', err);
 }
+
+registerMapSource(ocmSource);
