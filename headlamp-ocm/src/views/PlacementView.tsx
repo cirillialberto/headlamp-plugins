@@ -1,3 +1,4 @@
+import { useTranslation } from '@kinvolk/headlamp-plugin/lib';
 import { Loader, ResourceListView, SectionBox } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
 import React from 'react';
 import { useParams } from 'react-router-dom';
@@ -14,28 +15,29 @@ import { bindingsReferencingPlacement, policiesForBinding } from '../utils/refer
 import { makeSearchFilter } from '../utils/search';
 
 export function PlacementListView() {
+  const { t } = useTranslation();
   const { isClusterApiInstalled, isOcmCheckLoading } = useOcmInstalled();
 
   if (isOcmCheckLoading) {
     return (
-      <SectionBox title="Placements">
-        <Loader title="Checking Open Cluster Management APIs" />
+      <SectionBox title={t('Placements')}>
+        <Loader title={t('Checking Open Cluster Management APIs')} />
       </SectionBox>
     );
   }
 
   if (isClusterApiInstalled === false) {
     return (
-      <SectionBox title="Placements">
-        <CrdNotInstalled apiGroup={OcmApiLabels.cluster} resourceLabel="Placements" />
+      <SectionBox title={t('Placements')}>
+        <CrdNotInstalled apiGroup={OcmApiLabels.cluster} resourceLabel={t('Placements')} />
       </SectionBox>
     );
   }
 
   return (
-    <SectionBox title="Placements">
+    <SectionBox title={t('Placements')}>
       <ResourceListView
-        title="Cluster Placements"
+        title={t('Cluster Placements')}
         resourceClass={Placement}
         filterFunction={makeSearchFilter(['spec.numberOfClusters', 'status.numberOfSelectedClusters'])}
         columns={[
@@ -43,12 +45,12 @@ export function PlacementListView() {
           'namespace',
           {
             id: 'desired',
-            label: 'Desired',
+            label: t('Desired'),
             getValue: (item: any) => item?.jsonData?.spec?.numberOfClusters ?? '-',
           },
           {
             id: 'selected',
-            label: 'Selected',
+            label: t('Selected'),
             getValue: (item: any) => item?.jsonData?.status?.numberOfSelectedClusters ?? '-',
           },
           'age',
@@ -59,17 +61,19 @@ export function PlacementListView() {
 }
 
 export function PlacementDetailsView() {
+  const { t } = useTranslation();
   const { namespace = '', name = '' } = useParams<{ namespace: string; name: string }>();
   return (
     <>
       <PlacementRelatedResourcesSection namespace={namespace} name={name} />
-      <ResourceDefinitionDetails resourceType={Placement} namespace={namespace} name={name} title="Placement Details" />
+      <ResourceDefinitionDetails resourceType={Placement} namespace={namespace} name={name} title={t('Placement Details')} />
     </>
   );
 }
 
 /** Lists the PlacementBindings that target this placement, with links to their policies. */
 function PlacementRelatedResourcesSection({ namespace, name }: { namespace: string; name: string }) {
+  const { t } = useTranslation();
   const [bindings] = PlacementBinding.useList();
   const [policies] = Policy.useList();
 
@@ -101,5 +105,11 @@ function PlacementRelatedResourcesSection({ namespace, name }: { namespace: stri
       };
     });
 
-  return <RelatedResourcesSection title="Bound by (PlacementBindings)" rows={rows} emptyHint="No PlacementBindings reference this placement." />;
+  return (
+    <RelatedResourcesSection
+      title={t('Bound by (PlacementBindings)')}
+      rows={rows}
+      emptyHint={t('No PlacementBindings reference this placement.')}
+    />
+  );
 }

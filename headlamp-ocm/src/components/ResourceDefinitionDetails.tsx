@@ -1,5 +1,7 @@
+import { useTranslation } from '@kinvolk/headlamp-plugin/lib';
 import { SectionBox } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
 import React from 'react';
+import { useStatusColors } from '../hooks/useStatusColors';
 import { toYaml } from '../utils/yaml';
 import { YamlSection } from './YamlSection';
 
@@ -16,12 +18,16 @@ export function ResourceDefinitionDetails({
   title: string;
   describe?: (item: any) => string;
 }) {
+  const { t } = useTranslation();
+  const colors = useStatusColors();
   const [item, error] = resourceType.useGet(name, namespace);
 
   if (error) {
     return (
       <SectionBox title={title}>
-        <div style={{ color: '#c62828', fontSize: 12 }}>Failed to load resource: {String(error)}</div>
+        <div style={{ color: colors.error, fontSize: 12 }}>
+          {t('Failed to load resource: {{ error }}', { error: String(error) })}
+        </div>
       </SectionBox>
     );
   }
@@ -29,7 +35,7 @@ export function ResourceDefinitionDetails({
   if (!item) {
     return (
       <SectionBox title={title}>
-        <div style={{ fontSize: 12, color: '#666' }}>Loading resource definition...</div>
+        <div style={{ fontSize: 12, color: colors.muted }}>{t('Loading resource definition...')}</div>
       </SectionBox>
     );
   }
@@ -40,30 +46,34 @@ export function ResourceDefinitionDetails({
   return (
     <SectionBox title={title}>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 8, fontSize: 12 }}>
-        <div><strong>Kind:</strong> {obj?.kind || '-'}</div>
-        <div><strong>API Version:</strong> {obj?.apiVersion || '-'}</div>
-        <div><strong>Name:</strong> {obj?.metadata?.name || '-'}</div>
-        <div><strong>Namespace:</strong> {obj?.metadata?.namespace || '-'}</div>
-        <div><strong>Created:</strong> {obj?.metadata?.creationTimestamp || '-'}</div>
-        <div><strong>Generation:</strong> {String(obj?.metadata?.generation ?? '-')}</div>
+        <div><strong>{t('Kind')}:</strong> {obj?.kind || '-'}</div>
+        <div><strong>{t('API Version')}:</strong> {obj?.apiVersion || '-'}</div>
+        <div><strong>{t('Name')}:</strong> {obj?.metadata?.name || '-'}</div>
+        <div><strong>{t('Namespace')}:</strong> {obj?.metadata?.namespace || '-'}</div>
+        <div><strong>{t('Created')}:</strong> {obj?.metadata?.creationTimestamp || '-'}</div>
+        <div><strong>{t('Generation')}:</strong> {String(obj?.metadata?.generation ?? '-')}</div>
       </div>
 
-      {description ? <div style={{ marginTop: 10, fontSize: 12, color: '#444' }}><strong>Description:</strong> {description}</div> : null}
+      {description ? (
+        <div style={{ marginTop: 10, fontSize: 12, color: colors.body }}>
+          <strong>{t('Description')}:</strong> {description}
+        </div>
+      ) : null}
 
-      <YamlSection title="Spec (YAML)" data={obj?.spec} />
-      <YamlSection title="Status (YAML)" data={obj?.status} />
+      <YamlSection title={t('Spec (YAML)')} data={obj?.spec} />
+      <YamlSection title={t('Status (YAML)')} data={obj?.status} />
 
       <div style={{ marginTop: 12 }}>
         <details>
-          <summary style={{ cursor: 'pointer', fontWeight: 700 }}>Full definition (YAML)</summary>
+          <summary style={{ cursor: 'pointer', fontWeight: 700 }}>{t('Full definition (YAML)')}</summary>
           <pre
             style={{
               marginTop: 8,
               marginBottom: 0,
               padding: 10,
-              border: '1px solid #ddd',
+              border: `1px solid ${colors.divider}`,
               borderRadius: 8,
-              background: '#f8f8f8',
+              background: colors.backgroundAlt,
               fontSize: 12,
               overflowX: 'auto',
               whiteSpace: 'pre-wrap',

@@ -1,3 +1,4 @@
+import { useTranslation } from '@kinvolk/headlamp-plugin/lib';
 import { Loader, ResourceListView, SectionBox } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
 import React from 'react';
 import { useParams } from 'react-router-dom';
@@ -6,6 +7,7 @@ import { RelatedResourcesSection } from '../components/RelatedResources';
 import { ResourceDefinitionDetails } from '../components/ResourceDefinitionDetails';
 import { RouteNames } from '../constants';
 import { useOcmInstalled } from '../hooks/useOcmInstalled';
+import { useStatusColors } from '../hooks/useStatusColors';
 import { OcmApiLabels } from '../isOcmInstalled';
 import { Placement } from '../resources/placement';
 import { PlacementBinding } from '../resources/placementBinding';
@@ -15,28 +17,30 @@ import { bindingsReferencingPolicy, placementsForBinding } from '../utils/refere
 import { makeSearchFilter } from '../utils/search';
 
 export function PolicyListView() {
+  const { t } = useTranslation();
+  const colors = useStatusColors();
   const { isPolicyApiInstalled, isOcmCheckLoading } = useOcmInstalled();
 
   if (isOcmCheckLoading) {
     return (
-      <SectionBox title="Policies">
-        <Loader title="Checking Open Cluster Management APIs" />
+      <SectionBox title={t('Policies')}>
+        <Loader title={t('Checking Open Cluster Management APIs')} />
       </SectionBox>
     );
   }
 
   if (isPolicyApiInstalled === false) {
     return (
-      <SectionBox title="Policies">
-        <CrdNotInstalled apiGroup={OcmApiLabels.policy} resourceLabel="Policies" />
+      <SectionBox title={t('Policies')}>
+        <CrdNotInstalled apiGroup={OcmApiLabels.policy} resourceLabel={t('Policies')} />
       </SectionBox>
     );
   }
 
   return (
-    <SectionBox title="Policies">
+    <SectionBox title={t('Policies')}>
       <ResourceListView
-        title="Governance Policies"
+        title={t('Governance Policies')}
         resourceClass={Policy}
         filterFunction={makeSearchFilter(['status.compliant', 'spec.remediationAction', 'status.status', 'status.details'])}
         columns={[
@@ -44,38 +48,38 @@ export function PolicyListView() {
           'namespace',
           {
             id: 'intent',
-            label: 'What it does',
+            label: t('What it does'),
             getValue: (item: any) => getPolicyIntent(item),
-            render: (item: any) => <span style={{ color: '#444' }}>{getPolicyIntent(item)}</span>,
+            render: (item: any) => <span style={{ color: colors.body }}>{getPolicyIntent(item)}</span>,
           },
           {
             id: 'compliant',
-            label: 'Compliance',
+            label: t('Compliance'),
             getValue: (item: any) => item?.jsonData?.status?.compliant || '-',
             render: (item: any) => {
               const c = String(item?.jsonData?.status?.compliant || '').toLowerCase();
-              const color = c === 'compliant' ? '#4CAF50' : c === 'noncompliant' ? '#F44336' : '#666';
+              const color = c === 'compliant' ? colors.positive : c === 'noncompliant' ? colors.negative : colors.muted;
               return <span style={{ color, fontWeight: 600 }}>{item?.jsonData?.status?.compliant || '-'}</span>;
             },
           },
           {
             id: 'remediation',
-            label: 'Remediation',
+            label: t('Remediation'),
             getValue: (item: any) => item?.jsonData?.spec?.remediationAction || '-',
           },
           {
             id: 'affectedClusters',
-            label: 'Affected Clusters',
+            label: t('Affected Clusters'),
             getValue: (item: any) => String(getNonCompliantClusterCount(item)),
           },
           {
             id: 'whyNonCompliant',
-            label: 'Why Non-compliant',
+            label: t('Why Non-compliant'),
             getValue: (item: any) => getPolicyWhyNonCompliant(item),
             render: (item: any) => {
               const compliance = String(item?.jsonData?.status?.compliant || '').toLowerCase();
-              if (compliance !== 'noncompliant') return <span style={{ color: '#666' }}>-</span>;
-              return <span style={{ color: '#444' }}>{getPolicyWhyNonCompliant(item)}</span>;
+              if (compliance !== 'noncompliant') return <span style={{ color: colors.muted }}>-</span>;
+              return <span style={{ color: colors.body }}>{getPolicyWhyNonCompliant(item)}</span>;
             },
           },
           'age',
@@ -86,6 +90,7 @@ export function PolicyListView() {
 }
 
 export function PolicyDetailsView() {
+  const { t } = useTranslation();
   const { namespace = '', name = '' } = useParams<{ namespace: string; name: string }>();
   return (
     <>
@@ -94,8 +99,12 @@ export function PolicyDetailsView() {
         resourceType={Policy}
         namespace={namespace}
         name={name}
-        title="Policy Details"
-        describe={(item: Policy) => `${getPolicyIntent(item)}. Compliance: ${item?.jsonData?.status?.compliant || 'unknown'}.`}
+        title={t('Policy Details')}
+        describe={(item: Policy) =>
+          `${getPolicyIntent(item)} ${item?.jsonData?.status?.compliant ? `, ${t('Compliance: {{ value }}', {
+            value: item.jsonData.status.compliant,
+          })}` : ''}`
+        }
       />
     </>
   );
@@ -103,6 +112,7 @@ export function PolicyDetailsView() {
 
 /** Lists PlacementBindings that attach this policy, with links to their placements. */
 function PolicyRelatedResourcesSection({ namespace, name }: { namespace: string; name: string }) {
+  const { t } = useTranslation();
   const [bindings] = PlacementBinding.useList();
   const [placements] = Placement.useList();
 
@@ -136,5 +146,11 @@ function PolicyRelatedResourcesSection({ namespace, name }: { namespace: string;
       };
     });
 
-  return <RelatedResourcesSection title="Referenced by (PlacementBindings)" rows={rows} emptyHint="No PlacementBindings reference this policy." />;
+  return (
+    <RelatedResourcesSection
+      title={t('Referenced by (PlacementBindings)')}
+      rows={rows}
+      emptyHint={t('No PlacementBindings reference this policy.')}
+    />
+  );
 }

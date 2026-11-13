@@ -1,3 +1,4 @@
+import { useTranslation } from '@kinvolk/headlamp-plugin/lib';
 import { Loader, ResourceListView, SectionBox } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
 import React from 'react';
 import { useParams } from 'react-router-dom';
@@ -9,35 +10,36 @@ import { ManagedCluster } from '../resources/managedCluster';
 import { makeSearchFilter } from '../utils/search';
 
 export function ManagedClusterListView() {
+  const { t } = useTranslation();
   const { isClusterApiInstalled, isOcmCheckLoading } = useOcmInstalled();
 
   if (isOcmCheckLoading) {
     return (
-      <SectionBox title="ManagedClusters">
-        <Loader title="Checking Open Cluster Management APIs" />
+      <SectionBox title={t('ManagedClusters')}>
+        <Loader title={t('Checking Open Cluster Management APIs')} />
       </SectionBox>
     );
   }
 
   if (isClusterApiInstalled === false) {
     return (
-      <SectionBox title="ManagedClusters">
-        <CrdNotInstalled apiGroup={OcmApiLabels.cluster} resourceLabel="ManagedClusters" />
+      <SectionBox title={t('ManagedClusters')}>
+        <CrdNotInstalled apiGroup={OcmApiLabels.cluster} resourceLabel={t('ManagedClusters')} />
       </SectionBox>
     );
   }
 
   return (
-    <SectionBox title="ManagedClusters">
+    <SectionBox title={t('ManagedClusters')}>
       <ResourceListView
-        title="Managed Clusters"
+        title={t('Managed Clusters')}
         resourceClass={ManagedCluster}
         filterFunction={makeSearchFilter(['status.conditions'])}
         columns={[
           'name',
           {
             id: 'available',
-            label: 'Available',
+            label: t('Available'),
             getValue: (item: any) => {
               const cond = (item?.jsonData?.status?.conditions || []).find((c: any) => c.type === 'ManagedClusterConditionAvailable');
               return cond?.status || '-';
@@ -45,12 +47,12 @@ export function ManagedClusterListView() {
           },
           {
             id: 'vendor',
-            label: 'Vendor',
+            label: t('Vendor'),
             getValue: (item: any) => item?.jsonData?.status?.vendor || '-',
           },
           {
             id: 'version',
-            label: 'K8s Version',
+            label: t('K8s Version'),
             getValue: (item: any) => item?.jsonData?.status?.version?.kubernetes || '-',
           },
           'age',
@@ -61,6 +63,7 @@ export function ManagedClusterListView() {
 }
 
 export function ManagedClusterDetailsView() {
+  const { t } = useTranslation();
   const { name = '' } = useParams<{ name: string }>();
-  return <ResourceDefinitionDetails resourceType={ManagedCluster} name={name} title="ManagedCluster Details" />;
+  return <ResourceDefinitionDetails resourceType={ManagedCluster} name={name} title={t('ManagedCluster Details')} />;
 }

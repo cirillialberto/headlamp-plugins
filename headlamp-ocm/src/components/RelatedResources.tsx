@@ -1,5 +1,6 @@
 import { Link, SectionBox } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
 import React from 'react';
+import { useStatusColors } from '../hooks/useStatusColors';
 
 /** A routable reference to another resource, rendered as a link. */
 export interface RelatedRef {
@@ -28,10 +29,12 @@ export function RelatedResourcesSection({
   rows: RelatedRow[];
   emptyHint: string;
 }) {
+  const colors = useStatusColors();
+
   return (
     <SectionBox title={title}>
       {rows.length === 0 ? (
-        <div style={{ fontSize: 12, color: '#666' }}>{emptyHint}</div>
+        <div style={{ fontSize: 12, color: colors.muted }}>{emptyHint}</div>
       ) : (
         <div style={{ display: 'grid', gap: 6 }}>
           {rows.map((row, index) => (
@@ -56,7 +59,7 @@ export function RelatedResourcesSection({
                   ))}
                 </span>
               ) : (
-                <span style={{ color: '#666' }}>—</span>
+                <span style={{ color: colors.muted }}>—</span>
               )}
             </div>
           ))}

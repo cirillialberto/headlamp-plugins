@@ -1,3 +1,4 @@
+import { useTranslation } from '@kinvolk/headlamp-plugin/lib';
 import { Loader, ResourceListView, SectionBox } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
 import React from 'react';
 import { useParams } from 'react-router-dom';
@@ -9,28 +10,29 @@ import { PolicySet } from '../resources/policySet';
 import { makeSearchFilter } from '../utils/search';
 
 export function PolicySetListView() {
+  const { t } = useTranslation();
   const { isPolicyApiInstalled, isOcmCheckLoading } = useOcmInstalled();
 
   if (isOcmCheckLoading) {
     return (
-      <SectionBox title="PolicySets">
-        <Loader title="Checking Open Cluster Management APIs" />
+      <SectionBox title={t('PolicySets')}>
+        <Loader title={t('Checking Open Cluster Management APIs')} />
       </SectionBox>
     );
   }
 
   if (isPolicyApiInstalled === false) {
     return (
-      <SectionBox title="PolicySets">
-        <CrdNotInstalled apiGroup={OcmApiLabels.policy} resourceLabel="PolicySets" />
+      <SectionBox title={t('PolicySets')}>
+        <CrdNotInstalled apiGroup={OcmApiLabels.policy} resourceLabel={t('PolicySets')} />
       </SectionBox>
     );
   }
 
   return (
-    <SectionBox title="PolicySets">
+    <SectionBox title={t('PolicySets')}>
       <ResourceListView
-        title="Policy Sets"
+        title={t('Policy Sets')}
         resourceClass={PolicySet}
         filterFunction={makeSearchFilter(['spec.policies'])}
         columns={[
@@ -38,7 +40,7 @@ export function PolicySetListView() {
           'namespace',
           {
             id: 'policiesCount',
-            label: 'Policies',
+            label: t('Policies'),
             getValue: (item: any) => String((item?.jsonData?.spec?.policies || []).length),
           },
           'age',
@@ -49,6 +51,7 @@ export function PolicySetListView() {
 }
 
 export function PolicySetDetailsView() {
+  const { t } = useTranslation();
   const { namespace = '', name = '' } = useParams<{ namespace: string; name: string }>();
-  return <ResourceDefinitionDetails resourceType={PolicySet} namespace={namespace} name={name} title="PolicySet Details" />;
+  return <ResourceDefinitionDetails resourceType={PolicySet} namespace={namespace} name={name} title={t('PolicySet Details')} />;
 }

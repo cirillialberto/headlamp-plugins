@@ -1,3 +1,4 @@
+import { useTranslation } from '@kinvolk/headlamp-plugin/lib';
 import { Loader, ResourceListView, SectionBox } from '@kinvolk/headlamp-plugin/lib/CommonComponents';
 import React from 'react';
 import { useParams } from 'react-router-dom';
@@ -9,28 +10,29 @@ import { ApplicationSet } from '../resources/applicationSet';
 import { makeSearchFilter } from '../utils/search';
 
 export function ApplicationSetListView() {
+  const { t } = useTranslation();
   const { isArgoApiInstalled, isOcmCheckLoading } = useOcmInstalled();
 
   if (isOcmCheckLoading) {
     return (
-      <SectionBox title="ApplicationSets">
-        <Loader title="Checking Open Cluster Management APIs" />
+      <SectionBox title={t('ApplicationSets')}>
+        <Loader title={t('Checking Open Cluster Management APIs')} />
       </SectionBox>
     );
   }
 
   if (isArgoApiInstalled === false) {
     return (
-      <SectionBox title="ApplicationSets">
-        <CrdNotInstalled apiGroup={OcmApiLabels.argo} resourceLabel="ApplicationSets" />
+      <SectionBox title={t('ApplicationSets')}>
+        <CrdNotInstalled apiGroup={OcmApiLabels.argo} resourceLabel={t('ApplicationSets')} />
       </SectionBox>
     );
   }
 
   return (
-    <SectionBox title="ApplicationSets">
+    <SectionBox title={t('ApplicationSets')}>
       <ResourceListView
-        title="ArgoCD ApplicationSets"
+        title={t('ArgoCD ApplicationSets')}
         resourceClass={ApplicationSet}
         filterFunction={makeSearchFilter(['spec.generators', 'spec.template.metadata.name'])}
         columns={[
@@ -38,7 +40,7 @@ export function ApplicationSetListView() {
           'namespace',
           {
             id: 'generators',
-            label: 'Generators',
+            label: t('Generators'),
             getValue: (item: any) => String((item?.jsonData?.spec?.generators || []).length),
           },
           'age',
@@ -49,6 +51,7 @@ export function ApplicationSetListView() {
 }
 
 export function ApplicationSetDetailsView() {
+  const { t } = useTranslation();
   const { namespace = '', name = '' } = useParams<{ namespace: string; name: string }>();
-  return <ResourceDefinitionDetails resourceType={ApplicationSet} namespace={namespace} name={name} title="ApplicationSet Details" />;
+  return <ResourceDefinitionDetails resourceType={ApplicationSet} namespace={namespace} name={name} title={t('ApplicationSet Details')} />;
 }

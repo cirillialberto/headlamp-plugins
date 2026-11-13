@@ -15,14 +15,26 @@ export function getConditionStatus(item: ResourceLike<ManagedClusterJson>, type:
   return String(condition?.status || 'Unknown');
 }
 
+/** Optional theme colors for {@link statusColor}. */
+export interface StatusColorPalette {
+  positive?: string;
+  negative?: string;
+  muted?: string;
+}
+
 /**
  * Returns a color for a boolean-ish condition status.
+ * When `colors` is provided (e.g. from `useStatusColors`) those values are
+ * used, so the result adapts to the active light/dark theme.
  */
-export function statusColor(status: string): string {
+export function statusColor(status: string, colors?: StatusColorPalette): string {
+  const positive = colors?.positive ?? '#2e7d32';
+  const negative = colors?.negative ?? '#c62828';
+  const muted = colors?.muted ?? '#666';
   const normalized = status.toLowerCase();
-  if (normalized === 'true' || normalized === 'compliant') return '#2e7d32';
-  if (normalized === 'false' || normalized === 'noncompliant') return '#c62828';
-  return '#666';
+  if (normalized === 'true' || normalized === 'compliant') return positive;
+  if (normalized === 'false' || normalized === 'noncompliant') return negative;
+  return muted;
 }
 
 /**

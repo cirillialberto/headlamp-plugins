@@ -15,6 +15,12 @@
     "test": "headlamp-plugin test",
     "i18n": "headlamp-plugin i18n"
   },
+  "headlamp": {
+    "i18n": [
+      "en",
+      "it"
+    ]
+  },
   "keywords": [
     "headlamp",
     "headlamp-plugin",
