@@ -25,31 +25,42 @@ import {
   summarizePoliciesByNamespace,
 } from '../utils/policy';
 
+/**
+ * Soft cap for the heaviest dashboard queries. Policies and placement bindings can
+ * number in the hundreds in large ACM deployments, so the dashboard requests at most
+ * this many items per list and hints at truncation when the cap is reached.
+ */
+const DASHBOARD_LIST_LIMIT = 100;
+
 export function OcMDashboard() {
   const { t } = useTranslation();
   const colors = useStatusColors();
 
   const [clusters] = ManagedCluster.useList();
   const [clusterSets] = ManagedClusterSet.useList();
-  const [policies] = Policy.useList();
+  const [policies] = Policy.useList({ limit: DASHBOARD_LIST_LIMIT });
   const [placements] = Placement.useList();
-  const [bindings] = PlacementBinding.useList();
+  const [bindings] = PlacementBinding.useList({ limit: DASHBOARD_LIST_LIMIT });
 
-  const compliant = (policies || []).filter((p: Policy) => isPolicyCompliant(p)).length;
-  const nonCompliant = (policies || []).filter((p: Policy) => isPolicyNonCompliant(p)).length;
+  const policyList = policies || [];
+  const isTruncated =
+    policyList.length >= DASHBOARD_LIST_LIMIT || (bindings || []).length >= DASHBOARD_LIST_LIMIT;
+
+  const compliant = policyList.filter((p: Policy) => isPolicyCompliant(p)).length;
+  const nonCompliant = policyList.filter((p: Policy) => isPolicyNonCompliant(p)).length;
 
   const cards = [
     { label: t('Managed Clusters'), value: (clusters || []).length, routeName: RouteNames.managedClusters },
     { label: t('ManagedClusterSets'), value: (clusterSets || []).length, routeName: RouteNames.managedClusterSets },
-    { label: t('Policies'), value: (policies || []).length, routeName: RouteNames.policies },
+    { label: t('Policies'), value: policyList.length, routeName: RouteNames.policies },
     { label: t('Placements'), value: (placements || []).length, routeName: RouteNames.placements },
     { label: t('PlacementBindings'), value: (bindings || []).length, routeName: RouteNames.placementBindings },
     { label: t('Compliant Policies'), value: compliant, routeName: RouteNames.policies },
     { label: t('Non-compliant Policies'), value: nonCompliant, routeName: RouteNames.policies },
   ];
 
-  const policyByNamespace = summarizePoliciesByNamespace(policies || []).slice(0, 8);
-  const nonCompliantPolicies = summarizeNonCompliantPolicies(policies || []).slice(0, 8);
+  const policyByNamespace = summarizePoliciesByNamespace(policyList).slice(0, 8);
+  const nonCompliantPolicies = summarizeNonCompliantPolicies(policyList).slice(0, 8);
   const clustersPreview = (clusters || []).slice(0, 10);
   const placementsPreview = (placements || []).slice(0, 8);
 
@@ -178,6 +189,13 @@ export function OcMDashboard() {
       <div style={{ marginTop: 12, fontSize: 12, color: colors.muted }}>
         {t('OCM view for multi-cluster posture: cluster health, governance policy state, placement topology and binding relationships.')}
       </div>
+      {isTruncated && (
+        <div style={{ marginTop: 4, fontSize: 12, color: colors.muted }}>
+          {t('Showing the first {{ count }} items; some resources may not be shown.', {
+            count: DASHBOARD_LIST_LIMIT,
+          })}
+        </div>
+      )}
     </SectionBox>
   );
 }

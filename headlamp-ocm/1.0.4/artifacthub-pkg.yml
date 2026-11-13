@@ -35,7 +35,9 @@ changes:
   - kind: added
     description: Added dark/light theme support and English/Italian interface localization.
   - kind: changed
-    description: Refactored the plugin into typed modules with unit tests and bounded dashboard queries.
+    description: Refactored the plugin into typed modules with unit tests.
+  - kind: changed
+    description: Capped dashboard policy and placement binding queries at 100 items and shows a truncation hint when the cap is reached.
 maintainers:
   - name: Alberto Cirilli
     email: cirilli.alberto@gmail.com
@@ -43,6 +45,6 @@ provider:
   name: Alberto Cirilli
 annotations:
   headlamp/plugin/archive-url: https://github.com/cirillialberto/headlamp-plugins/releases/download/plugins-v1.0.4/headlamp-ocm-1.0.4.tar.gz
-  headlamp/plugin/archive-checksum: sha256:d2fe1a9894898257eeaa59a1d1cd9ea6735ee8f51d06f2aa363e207f6eeee09f
+  headlamp/plugin/archive-checksum: sha256:b01ab84dd893a33645868c7ca5a42ccb5fb7db5d4dcb52571ea9fe839854b203
   headlamp/plugin/version-compat: ">=0.14.0"
   headlamp/plugin/distro-compat: in-cluster,web,docker-desktop,linux,windows,mac
