@@ -1,4 +1,5 @@
-import { registerAppBarAction, registerMapSource, registerRoute, registerSidebarEntry } from '@kinvolk/headlamp-plugin/lib';
+import { Notification, registerAppBarAction, registerMapSource, registerRoute, registerSidebarEntry } from '@kinvolk/headlamp-plugin/lib';
+import type { Notification as NotificationClass } from '@kinvolk/headlamp-plugin/lib/components/App/Notifications/notificationsSlice';
 import React from 'react';
 import { OcMDashboard } from './components/OcMDashboard';
 import { RouteNames } from './constants';
@@ -43,6 +44,24 @@ try {
   registerRoute({ path: '/ocm/applicationsets/:namespace/:name', sidebar: 'ocm-applicationsets', name: RouteNames.applicationSetsDetail, exact: true, component: () => <ApplicationSetDetailsView /> });
 } catch (err) {
   console.error('[OCM Plugin] Failed to register routes:', err);
+  try {
+    // The SDK does not export the Notification class as a value, so build a plain object
+    // that satisfies the NotificationIface shape. Persisting to localStorage is best effort:
+    // it is visible in the Host notification list after a reload. The console error above
+    // is the source of truth.
+    const date = new Date().getTime();
+    const notification = {
+      cluster: null,
+      date,
+      deleted: false,
+      id: btoa(`ocm-route-registration-failed-${date}`),
+      message: 'Failed to register OCM routes (see console for details)',
+      seen: false,
+    } as NotificationClass;
+    Notification.setNotificationsInStore(notification);
+  } catch {
+    // best effort, the console error above is the source of truth
+  }
 }
 
 registerMapSource(ocmSource);

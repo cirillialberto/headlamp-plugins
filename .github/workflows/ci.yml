@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  headlamp-ocm:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: headlamp-ocm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: headlamp-ocm/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Type check
+        run: npm run tsc
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: node_modules/.bin/vitest run -c node_modules/@kinvolk/headlamp-plugin/config/vite.config.mjs --passWithNoTests
+      - name: Build
+        run: npm run build
+
+  headlamp-olm:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: headlamp-olm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: headlamp-olm/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Type check
+        run: npm run tsc
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: node_modules/.bin/vitest run -c node_modules/@kinvolk/headlamp-plugin/config/vite.config.mjs --passWithNoTests
+      - name: Build
+        run: npm run build

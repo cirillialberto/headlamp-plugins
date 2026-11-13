@@ -34,6 +34,7 @@ tsconfig.json.orig
 Thumbs.db
 
 # Project specific
+.eslintcache
 coverage/
 .nyc_output/
 storybook-static/

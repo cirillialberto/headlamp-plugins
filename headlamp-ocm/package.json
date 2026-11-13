@@ -1,6 +1,6 @@
 {
   "name": "headlamp-ocm",
-  "version": "0.1.0",
+  "version": "1.0.4",
   "description": "Headlamp plugin for Open Cluster Management",
   "scripts": {
     "start": "headlamp-plugin start",

@@ -1,0 +1,48 @@
+version: 1.0.4
+name: headlamp-ocm
+displayName: Headlamp OCM Plugin
+createdAt: 2026-11-13T09:10:00Z
+description: Headlamp plugin for Open Cluster Management (OCM) integration.
+license: Apache-2.0
+homeURL: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-ocm/1.0.4
+appVersion: 1.0.4
+category: integration-delivery
+keywords:
+  - headlamp
+  - kubernetes
+  - kubernetes-ui
+  - open-cluster-management
+  - acm
+  - multicluster
+links:
+  - name: source
+    url: https://github.com/cirillialberto/headlamp-plugins
+  - name: plugin folder
+    url: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-ocm
+  - name: artifacthub package docs
+    url: https://github.com/cirillialberto/headlamp-plugins/tree/main/headlamp-ocm/1.0.4
+  - name: issue tracker
+    url: https://github.com/cirillialberto/headlamp-plugins/issues
+changes:
+  - kind: added
+    description: Added a resource map view placing policies, placement bindings, placements and managed clusters together.
+  - kind: added
+    description: Added a policy x cluster compliance matrix view.
+  - kind: added
+    description: Added cross-resource navigation from policy and placement details to referencing placement bindings.
+  - kind: added
+    description: Added graceful degradation with friendly notices when OCM/ACM CRDs are not installed.
+  - kind: added
+    description: Added dark/light theme support and English/Italian interface localization.
+  - kind: changed
+    description: Refactored the plugin into typed modules with unit tests and bounded dashboard queries.
+maintainers:
+  - name: Alberto Cirilli
+    email: cirilli.alberto@gmail.com
+provider:
+  name: Alberto Cirilli
+annotations:
+  headlamp/plugin/archive-url: https://github.com/cirillialberto/headlamp-plugins/releases/download/plugins-v1.0.4/headlamp-ocm-1.0.4.tar.gz
+  headlamp/plugin/archive-checksum: sha256:d2fe1a9894898257eeaa59a1d1cd9ea6735ee8f51d06f2aa363e207f6eeee09f
+  headlamp/plugin/version-compat: ">=0.14.0"
+  headlamp/plugin/distro-compat: in-cluster,web,docker-desktop,linux,windows,mac
