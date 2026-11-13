@@ -28,6 +28,7 @@ export const RouteNames = {
   placementBindingsDetail: 'ocm-placementbindings-detail',
   policies: 'ocm-policies-route',
   policiesDetail: 'ocm-policies-detail',
+  policyMatrix: 'ocm-policy-matrix-route',
   policySets: 'ocm-policysets-route',
   policySetsDetail: 'ocm-policysets-detail',
   applicationSets: 'ocm-applicationsets-route',

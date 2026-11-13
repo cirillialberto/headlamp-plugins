@@ -8,6 +8,7 @@ import { ManagedClusterSetDetailsView, ManagedClusterSetListView } from './views
 import { ManagedClusterDetailsView, ManagedClusterListView } from './views/ManagedClusterView';
 import { PlacementBindingDetailsView, PlacementBindingListView } from './views/PlacementBindingView';
 import { PlacementDetailsView, PlacementListView } from './views/PlacementView';
+import { PolicyClusterMatrixView } from './views/PolicyClusterMatrixView';
 import { PolicySetDetailsView, PolicySetListView } from './views/PolicySetView';
 import { PolicyDetailsView, PolicyListView } from './views/PolicyView';
 
@@ -16,6 +17,7 @@ registerSidebarEntry({ parent: null, name: 'ocm', label: 'Open Cluster Mgmt', ur
 registerSidebarEntry({ parent: 'ocm', name: 'ocm-managedclusters', label: 'ManagedClusters', url: '/ocm/managedclusters', icon: 'mdi:cloud-outline' });
 registerSidebarEntry({ parent: 'ocm', name: 'ocm-managedclustersets', label: 'ManagedClusterSets', url: '/ocm/managedclustersets', icon: 'mdi:set-center-right' });
 registerSidebarEntry({ parent: 'ocm', name: 'ocm-policies', label: 'Policies', url: '/ocm/policies', icon: 'mdi:shield-check-outline' });
+registerSidebarEntry({ parent: 'ocm', name: 'ocm-policymatrix', label: 'Policy Matrix', url: '/ocm/policymatrix', icon: 'mdi:table' });
 registerSidebarEntry({ parent: 'ocm', name: 'ocm-policysets', label: 'PolicySets', url: '/ocm/policysets', icon: 'mdi:shield-outline' });
 registerSidebarEntry({ parent: 'ocm', name: 'ocm-placements', label: 'Placements', url: '/ocm/placements', icon: 'mdi:map-marker-radius-outline' });
 registerSidebarEntry({ parent: 'ocm', name: 'ocm-placementbindings', label: 'PlacementBindings', url: '/ocm/placementbindings', icon: 'mdi:link-variant' });
@@ -26,6 +28,7 @@ try {
   registerRoute({ path: '/ocm/managedclusters', sidebar: 'ocm-managedclusters', name: RouteNames.managedClusters, exact: true, component: () => <ManagedClusterListView /> });
   registerRoute({ path: '/ocm/managedclustersets', sidebar: 'ocm-managedclustersets', name: RouteNames.managedClusterSets, exact: true, component: () => <ManagedClusterSetListView /> });
   registerRoute({ path: '/ocm/policies', sidebar: 'ocm-policies', name: RouteNames.policies, exact: true, component: () => <PolicyListView /> });
+  registerRoute({ path: '/ocm/policymatrix', sidebar: 'ocm-policymatrix', name: RouteNames.policyMatrix, exact: true, component: () => <PolicyClusterMatrixView /> });
   registerRoute({ path: '/ocm/policysets', sidebar: 'ocm-policysets', name: RouteNames.policySets, exact: true, component: () => <PolicySetListView /> });
   registerRoute({ path: '/ocm/placements', sidebar: 'ocm-placements', name: RouteNames.placements, exact: true, component: () => <PlacementListView /> });
   registerRoute({ path: '/ocm/placementbindings', sidebar: 'ocm-placementbindings', name: RouteNames.placementBindings, exact: true, component: () => <PlacementBindingListView /> });

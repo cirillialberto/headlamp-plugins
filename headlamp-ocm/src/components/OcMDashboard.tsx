@@ -120,7 +120,9 @@ export function OcMDashboard() {
                 const accepted = getConditionStatus(cluster, HubAcceptedManagedCluster);
                 return (
                   <div key={cluster?.metadata?.name} style={{ display: 'grid', gridTemplateColumns: '1fr auto auto auto', gap: 8, fontSize: 12 }}>
-                    <strong>{cluster?.metadata?.name}</strong>
+                    <Link routeName={RouteNames.managedClustersDetail} params={{ name: String(cluster?.metadata?.name || '') }}>
+                      <strong>{cluster?.metadata?.name}</strong>
+                    </Link>
                     <span style={{ color: statusColor(available) }}>Avail: {available}</span>
                     <span style={{ color: statusColor(joined) }}>Joined: {joined}</span>
                     <span style={{ color: statusColor(accepted) }}>Accepted: {accepted}</span>

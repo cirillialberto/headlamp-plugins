@@ -2,11 +2,16 @@ import { Loader, ResourceListView, SectionBox } from '@kinvolk/headlamp-plugin/l
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { CrdNotInstalled } from '../components/CrdNotInstalled';
+import { RelatedResourcesSection } from '../components/RelatedResources';
 import { ResourceDefinitionDetails } from '../components/ResourceDefinitionDetails';
+import { RouteNames } from '../constants';
 import { useOcmInstalled } from '../hooks/useOcmInstalled';
 import { OcmApiLabels } from '../isOcmInstalled';
+import { Placement } from '../resources/placement';
+import { PlacementBinding } from '../resources/placementBinding';
 import { Policy } from '../resources/policy';
 import { getNonCompliantClusterCount, getPolicyIntent, getPolicyWhyNonCompliant } from '../utils/policy';
+import { bindingsReferencingPolicy, placementsForBinding } from '../utils/references';
 import { makeSearchFilter } from '../utils/search';
 
 export function PolicyListView() {
@@ -83,12 +88,53 @@ export function PolicyListView() {
 export function PolicyDetailsView() {
   const { namespace = '', name = '' } = useParams<{ namespace: string; name: string }>();
   return (
-    <ResourceDefinitionDetails
-      resourceType={Policy}
-      namespace={namespace}
-      name={name}
-      title="Policy Details"
-      describe={(item: Policy) => `${getPolicyIntent(item)}. Compliance: ${item?.jsonData?.status?.compliant || 'unknown'}.`}
-    />
+    <>
+      <PolicyRelatedResourcesSection namespace={namespace} name={name} />
+      <ResourceDefinitionDetails
+        resourceType={Policy}
+        namespace={namespace}
+        name={name}
+        title="Policy Details"
+        describe={(item: Policy) => `${getPolicyIntent(item)}. Compliance: ${item?.jsonData?.status?.compliant || 'unknown'}.`}
+      />
+    </>
   );
+}
+
+/** Lists PlacementBindings that attach this policy, with links to their placements. */
+function PolicyRelatedResourcesSection({ namespace, name }: { namespace: string; name: string }) {
+  const [bindings] = PlacementBinding.useList();
+  const [placements] = Placement.useList();
+
+  if (!bindings) return null;
+
+  const rows = bindingsReferencingPolicy({ name, namespace }, bindings as any)
+    .filter((binding: any) => Boolean(binding?.metadata?.name))
+    .map((binding: any) => {
+      const bindingNamespace = String(binding?.metadata?.namespace || '');
+      const bindingName = String(binding?.metadata?.name);
+      const placement = placementsForBinding(binding, placements as any)[0];
+
+      return {
+        ref: {
+          label: `Binding ${bindingNamespace}/${bindingName}`,
+          routeName: RouteNames.placementBindingsDetail,
+          params: { namespace: bindingNamespace, name: bindingName },
+        },
+        related: placement
+          ? [
+              {
+                label: `Placement ${placement?.metadata?.namespace || ''}/${placement?.metadata?.name || ''}`,
+                routeName: RouteNames.placementsDetail,
+                params: {
+                  namespace: String(placement?.metadata?.namespace || ''),
+                  name: String(placement?.metadata?.name || ''),
+                },
+              },
+            ]
+          : [],
+      };
+    });
+
+  return <RelatedResourcesSection title="Referenced by (PlacementBindings)" rows={rows} emptyHint="No PlacementBindings reference this policy." />;
 }
